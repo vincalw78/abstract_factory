@@ -9,6 +9,7 @@
 # Задекорувати створені функції timing декоратором і викликати із аргументом 10**12.
 import timeit
 
+
 # decorator, time execution measurement
 def timing():
     pass
@@ -29,5 +30,5 @@ def t_list_advance(n):
 
 
 if __name__ == '__main__':
-    print(timeit.timeit('t_list_long(10**12)', setup='from __main__ import t_list_long', number=1))
-    print(timeit.timeit('t_list_advance(10**12)', setup='from __main__ import t_list_advance', number=1))
+    print(timeit.timeit('t_list_long(10**6)', setup='from __main__ import t_list_long', number=1))
+    print(timeit.timeit('t_list_advance(10**6)', setup='from __main__ import t_list_advance', number=1))

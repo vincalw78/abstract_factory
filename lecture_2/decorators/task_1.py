@@ -32,8 +32,8 @@ def multiply(*args):
 
 
 if __name__ == '__main__':
-    print(add(1, 2, 7))
-    print(multiply(1, 2, 3, 7))
+    print(add(1, 5, 10))
+    print(multiply(1, 5, 20))
     decision = input("remove fail after test?: ")
     if decision == 'yes':
         os.remove('../../args.txt')

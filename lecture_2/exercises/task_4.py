@@ -6,10 +6,10 @@ import random
 from functools import reduce
 
 # list
-li = list(range(10))
+li = list(range(1, 11))
 
 # lambda multiplier
-multiplier = lambda x: x*random.randint(1, 10)
+multiplier = lambda x: x*random.randint(1, 11)
 
 # multiplied list
 li_mapped = list(map(multiplier, li))

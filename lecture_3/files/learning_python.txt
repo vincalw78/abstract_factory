@@ -1,0 +1,3 @@
+In Python you can create data structures very simply
+In Python you can use threading to get things done simultaneously
+In Python you can use predefined packages by installing them with pip
