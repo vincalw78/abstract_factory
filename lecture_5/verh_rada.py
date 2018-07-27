@@ -1,6 +1,5 @@
 # -*- coding: cp1251 -*-
 import pickle
-import pdb
 
 
 # pickle db file
@@ -233,7 +232,6 @@ class VerkhovnaRada:
                 if deputy.bribe_taker:
                     bribe_takers.append(deputy)
 
-        pdb.set_trace()
         bribe_takers.sort(key=Sorting('bribe_amount'))
         print(bribe_takers[-1], 'grivnjas taken: {}'.format(bribe_takers[-1].bribe_amount))
 
@@ -309,7 +307,6 @@ def main():
             continue
 
         entered = True
-        #pdb.set_trace()
 
         if choice == 1:
             fr_name = input('Please enter a fraction name: ')
