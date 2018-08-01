@@ -1,13 +1,30 @@
 # -*- coding: cp1251 -*-
 import pickle
-
+from descriptors import StringDescriptor, IntDescriptor
 
 # pickle db file
 db_file = './db_data/vr_db.pickle'
 
 
 # Base class
-class Human:
+
+class MetaDescriptors(type):
+    def __new__(cls, clsname, bases, dct):
+        new_dict = {}
+        for name, value in dct.items():
+            if name == 'int_types':
+                for x in value:
+                    new_dict[x] = IntDescriptor()
+            elif name == 'str_types':
+                for x in value:
+                    new_dict[x] = StringDescriptor()
+            else:
+                new_dict[name] = value
+        return type.__new__(cls, clsname, bases, new_dict)
+
+
+class Human(metaclass=MetaDescriptors):
+    int_types = ('weight', 'height')
     def __init__(self, weight, height):
         self.weight = weight
         self.height = height
@@ -17,7 +34,7 @@ class Human:
                self.height == other.height
 
     def __hash__(self):
-        return hash(self.weight) + hash(self.height)
+        return hash(str(self))
 
     def __str__(self):
         return f'Human with: weight: {self.weight} height: {self.height}'
@@ -25,6 +42,10 @@ class Human:
 
 # Deputies hashed
 class Deputat(Human):
+    str_types = ('last_name', 'first_name')
+    int_types = ('age',)
+
+    # bribe_amount = IntDescriptor()
     def __init__(self, weight, height, last_name, first_name, age, bribe_taker):
         super(Deputat, self).__init__(weight, height)
         self.last_name = last_name
@@ -86,7 +107,8 @@ class Sorting:
 
 
 # Fraction contains deputy members
-class Fraction:
+class Fraction(metaclass=MetaDescriptors):
+    str_types = ('name',)
     def __init__(self, name):
         self.name = name
         self.deputies = []
