@@ -1,19 +1,25 @@
 import pickle
 
-db_file = 'db_data/vr_db.pickle'
 
-
-class VerkhovnaRadaDataBase:
-    @staticmethod
-    def save_to_db(vr):
+class DataBase:
+    @classmethod
+    def save_to_db(cls, vr):
         confirmance = input('Are you sure? press yes/no: ')
         if confirmance == 'yes':
-            with open(db_file, 'wb') as f:
+            with open(cls.db_file, 'wb') as f:
                 pickle.dump(vr, f, pickle.HIGHEST_PROTOCOL)
                 print('DATA has been recorded!')
 
-    @staticmethod
-    def load_from_db():
-        with open(db_file, 'rb') as f:
+    @classmethod
+    def load_from_db(cls):
+        with open(cls.db_file, 'rb') as f:
             VR = pickle.load(f)
         return VR
+
+
+class UkraineDataBase(DataBase):
+    db_file = 'db_data/ukraine.pickle'
+
+
+class PolandDataBase(DataBase):
+    db_file = 'db_data/poland.pickle'

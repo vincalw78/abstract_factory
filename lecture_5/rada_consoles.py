@@ -126,6 +126,79 @@ class UkraineConsole(Console):
     
 class PolandConsole(Console):
 
+    def __init__(self, rada, fraction_class, deputat_class, db_class):
+        super(PolandConsole, self).__init__(rada, fraction_class, deputat_class, db_class)
+        self.help_text = """
+                Введіть 1, щоб додати фракцію
+                Введіть 2, щоб видалити фракцію
+                Введіть 3, щоб очистити фракцію
+                Введіть 4, щоб вивести фракції
+                Введіть 5, щоб видалити фракцію з ВР
+                Введіть 6, щоб додати депутата у фракцію
+                Введіть 7, щоб видалити депутата із фракції
+                Введіть 12, щоб перевірити чи є дупутат у фракції
+                Введіть 13, щоб перевірити чи є депутат у раді
+                Введіть 15, вивести всіх депутатів у ВР
+                Введіть 16, записати у БД
+                Введіть 17, зчитати з БД
+
+                Введіть 0, щоб вийти із програми.
+                : """
+
     def run(self):
-        pass
-    
+
+        while True:
+
+            choice = input(self.help_text)
+            try:
+                choice = int(choice)
+            except ValueError:
+                print('Enter a number from the list')
+                continue
+
+            if choice == 1:
+                fr_name = input('Please enter a fraction name: ')
+                self.rada.add_fraction(self.fraction_class(fr_name, self.deputat_class))
+            elif choice == 2:
+                fr_name = input('Please enter a fraction name to be deleted: ')
+                self.rada.remove_fraction(self.fraction_class(fr_name, self.deputat_class))
+            elif choice == 3:
+                fr_name = input('Please enter fraction name to work with: ')
+                self.fraction_class(fr_name, self.deputat_class).clean_out_deputies()
+            elif choice == 4:
+                self.rada.print_all_fractions()
+            elif choice == 5:
+                fr_name = input('Please enter a fraction name to be deleted: ')
+                self.rada.remove_fraction(self.fraction_class(fr_name, self.deputat_class))
+            elif choice == 6:
+                fr_name = input('Please enter fraction name to work with: ')
+                fr = self.fraction_class(fr_name, self.deputat_class)
+                if fr not in self.rada.fractions:
+                    self.rada.fractions.add(fr)
+                for fraction in self.rada.fractions:
+                    if fraction == fr:
+                        fraction.add_deputy()
+            elif choice == 7:
+                fr_name = input('Please enter fraction name to work with: ')
+                fr = self.fraction_class(fr_name, self.deputat_class)
+                dp = fr.add_deputy()
+
+                self.rada.remove_deputy_from_fraction(fr, dp)
+            elif choice == 12:
+                fr_name = input('Please enter fraction name to work with: ')
+                fr = self.fraction_class(fr_name, self.deputat_class)
+                dp = self.deputat_class.describe_deputy()
+                if dp:
+                    fr.is_participant(self.rada, dp)
+            elif choice == 13:
+                dp = self.deputat_class.describe_deputy()
+                if dp:
+                    self.rada.is_present_in_self.rada(dp)
+            elif choice == 15:
+                self.rada.print_all_deputies()
+            elif choice == 16:
+                self.db.save_to_db(self.rada)
+            elif choice == 17:
+                self.rada = self.db.load_from_db()
+            elif choice == 0:
+                break

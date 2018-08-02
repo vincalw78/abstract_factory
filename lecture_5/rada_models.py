@@ -31,20 +31,6 @@ class Deputat(Human):
     def __str__(self):
         return f'{self.first_name} {self.last_name} {self.weight}kg {self.height}cm {self.age}age'
 
-    @classmethod
-    def describe_deputy(cls):
-        personal_data = input(
-            'Please enter: weight, height, last_name, first_name, age, is_briber?[0 or 1]: '
-        )
-
-        pd = personal_data.split(', ')
-
-        try:
-            deputy = cls(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5])
-            return deputy
-        except IndexError as err:
-            print('data should be separated by comma and whitespace', 'Invalid Data')
-
 
 class UkraineDeputat(Deputat):
     def __init__(self, weight, height, last_name, first_name, age, bribe_taker):
@@ -65,10 +51,38 @@ class UkraineDeputat(Deputat):
         self.bribe_amount += int(money)
         return self.bribe_amount
 
+    @classmethod
+    def describe_deputy(cls):
+        personal_data = input(
+            'Please enter: weight, height, last_name, first_name, age, is_briber?[0 or 1]: '
+        )
+
+        pd = personal_data.split(', ')
+
+        try:
+            deputy = cls(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5])
+            return deputy
+        except IndexError as err:
+            print('data should be separated by comma and whitespace', 'Invalid Data')
+
 
 class PolandDeputat(Deputat):
     def __init__(self, weight, height, last_name, first_name, age):
         super(PolandDeputat, self).__init__(weight, height, last_name, first_name, age)
+
+    @classmethod
+    def describe_deputy(cls):
+        personal_data = input(
+            'Please enter: weight, height, last_name, first_name, age: '
+        )
+
+        pd = personal_data.split(', ')
+
+        try:
+            deputy = cls(pd[0], pd[1], pd[2], pd[3], pd[4])
+            return deputy
+        except IndexError as err:
+            print('data should be separated by comma and whitespace', 'Invalid Data')
 
 
 class Fraction(metaclass=MetaDescriptors):
@@ -168,7 +182,7 @@ class UkraineFraction(Fraction):
 class PolandFraction(Fraction):
 
     def __init__(self, name, deputat_class):
-        super(UkraineFraction, self).__init__(name, deputat_class)
+        super(PolandFraction, self).__init__(name, deputat_class)
 
 
 class VerkhovnaRada:
