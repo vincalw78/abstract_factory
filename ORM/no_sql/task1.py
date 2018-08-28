@@ -1,6 +1,6 @@
 import redis
 
-redis_server = redis.StrictRedis(host='localhost',
+redis_server = redis.StrictRedis(host='192.168.99.100',
                                  port=6379,
                                  charset='utf-8',
                                  decode_responses=True,
